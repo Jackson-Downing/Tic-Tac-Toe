@@ -1,5 +1,22 @@
 import tkinter as tk
 
+currentPlayer = "X"
+gameBtns = []
+
+def checkWin():
+    global gameBtns
+    for i in range(0, 9, 3):
+        if gameBtns[i].cget("text") == gameBtns[i+1].cget("text") == gameBtns[i+2].cget("text") and gameBtns[i].cget("text") != "":
+            return True # Horizontal win
+    for i in range(3):
+        if gameBtns[i].cget("text") == gameBtns[i+3].cget("text") == gameBtns[i+6].cget("text") and gameBtns[i].cget("text") != "":
+            return True # Vertical win
+    if gameBtns[0].cget("text") == gameBtns[4].cget("text") == gameBtns[8].cget("text") and gameBtns[0] != "":
+        return True # Diagonal win 1
+    elif gameBtns[2].cget("text") == gameBtns[4].cget("text") == gameBtns[6].cget("text") and gameBtns[0] != "":
+        return True # Diagonal win 2
+    return False # No win this round
+
 # Functions must be at the top, otherwise the program gets hissy when trying to reference them
 def preGame():
     gameGrid.pack_forget()
@@ -37,10 +54,9 @@ for i in range(3):
 
 
 # Loop to create each game btn and store it in an array
-gameBtns = []
 for r in range(3):
     for c in range(3):
-        btn = tk.Button(gameGrid)
+        btn = tk.Button(gameGrid, text="")
         btn.grid(row=r, column=c, sticky="news")
         gameBtns.append(btn)
 
