@@ -7,17 +7,13 @@ def checkWin():
     global gameBtns
     for i in range(0, 9, 3):
         if gameBtns[i].cget("text") == gameBtns[i+1].cget("text") == gameBtns[i+2].cget("text") and gameBtns[i].cget("text") != "":
-            print("Horizontal win")
             return True # Horizontal win
     for i in range(3):
         if gameBtns[i].cget("text") == gameBtns[i+3].cget("text") == gameBtns[i+6].cget("text") and gameBtns[i].cget("text") != "":
-            print("Vertical win")
             return True # Vertical win
     if gameBtns[0].cget("text") == gameBtns[4].cget("text") == gameBtns[8].cget("text") and gameBtns[0].cget("text") != "":
-        print("Diagonal 1 win")
         return True # Diagonal win 1
     elif gameBtns[2].cget("text") == gameBtns[4].cget("text") == gameBtns[6].cget("text") and gameBtns[2].cget("text") != "":
-        print("Diagonal 2 win")
         return True # Diagonal win 2
     return False # No win this round
 
@@ -34,9 +30,6 @@ def preGame():
     gameGrid.pack_forget()
     turnIndicator.pack_forget()
     startBtn.pack()
-
-def inGame(player="X"):
-    turnIndicator.config(text=f"{player}'s turn...")
 
 def postGame():
     pass
@@ -55,14 +48,17 @@ def btnPress(b):
         preGame()
     else:
         currentPlayer = "O" if currentPlayer == "X" else "X" # Change player
+        turnIndicator.config(text=f"{currentPlayer}'s turn...")
 
 def startGame():
+    global currentPlayer
+    currentPLayer = "X"
     startBtn.pack_forget()
     turnIndicator.pack()
     for btn in gameBtns:
         btn.config(text="")
     gameGrid.pack(padx=20, pady=20, expand=True, fill="both")
-    inGame()
+    turnIndicator.config(text=f"{currentPlayer}'s turn...")
 
 root = tk.Tk()
 root.title("Tic Tac Toe - Jackson Downing")
