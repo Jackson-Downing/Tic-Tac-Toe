@@ -27,12 +27,13 @@ def checkTie():
 
 # Functions must be at the top, otherwise the program gets hissy when trying to reference them
 def preGame():
+    textIndicator.pack_forget()
     gameGrid.pack_forget()
-    turnIndicator.pack_forget()
+    menuBtn.pack_forget()
     startBtn.pack()
 
 def postGame():
-    pass
+    menuBtn.pack(padx=10, pady=10)
 
 def btnPress(b):
     global currentPlayer
@@ -41,28 +42,28 @@ def btnPress(b):
     else:
         return
     if checkWin():
-        print(currentPlayer, "wins!")
-        preGame()
+        textIndicator.config(text=f"{currentPlayer} wins!")
+        postGame()
     elif checkTie():
-        print("Tie!")
-        preGame()
+        textIndicator.config(text=f"Tie!")
+        postGame()
     else:
         currentPlayer = "O" if currentPlayer == "X" else "X" # Change player
-        turnIndicator.config(text=f"{currentPlayer}'s turn...")
+        textIndicator.config(text=f"{currentPlayer}'s turn...")
 
 def startGame():
     global currentPlayer
-    currentPLayer = "X"
+    currentPlayer = "X"
     startBtn.pack_forget()
-    turnIndicator.pack()
+    textIndicator.pack(padx=10, pady=10)
     for btn in gameBtns:
         btn.config(text="")
-    gameGrid.pack(padx=20, pady=20, expand=True, fill="both")
-    turnIndicator.config(text=f"{currentPlayer}'s turn...")
+    gameGrid.pack(padx=20, pady=10, expand=True, fill="both")
+    textIndicator.config(text=f"{currentPlayer}'s turn...")
 
 root = tk.Tk()
 root.title("Tic Tac Toe - Jackson Downing")
-root.geometry("500x550")
+root.geometry("500x500")
 
 # Grid to hold all the game btns, autofitting to the screen with equal size
 gameGrid = tk.Frame(root)
@@ -79,9 +80,10 @@ for r in range(3):
         btn.grid(row=r, column=c, sticky="news")
         gameBtns.append(btn)
 
-startBtn = tk.Button(root, text="Start game", font=("Comic Sans MS", 20), width=20, height=3, command=startGame)
+startBtn = tk.Button(root, text="Start game", font=("Comic Sans MS", 20), width=20, height=5, command=startGame)
 startBtn.pack(pady=50, padx=50)
 
-turnIndicator = tk.Label(root, font=("Ariel", 12))
+textIndicator = tk.Label(root, font=("Ariel", 12))
+menuBtn = tk.Button(root, text="Menu", height=1, width=20, command=preGame)
 
 root.mainloop()
