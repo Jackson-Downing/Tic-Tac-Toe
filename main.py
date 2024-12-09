@@ -7,20 +7,24 @@ def checkWin():
     global gameBtns
     for i in range(0, 9, 3):
         if gameBtns[i].cget("text") == gameBtns[i+1].cget("text") == gameBtns[i+2].cget("text") and gameBtns[i].cget("text") != "":
+            print("Horizontal win")
             return True # Horizontal win
     for i in range(3):
         if gameBtns[i].cget("text") == gameBtns[i+3].cget("text") == gameBtns[i+6].cget("text") and gameBtns[i].cget("text") != "":
+            print("Vertical win")
             return True # Vertical win
-    if gameBtns[0].cget("text") == gameBtns[4].cget("text") == gameBtns[8].cget("text") and gameBtns[0] != "":
+    if gameBtns[0].cget("text") == gameBtns[4].cget("text") == gameBtns[8].cget("text") and gameBtns[0].cget("text") != "":
+        print("Diagonal 1 win")
         return True # Diagonal win 1
-    elif gameBtns[2].cget("text") == gameBtns[4].cget("text") == gameBtns[6].cget("text") and gameBtns[0] != "":
+    elif gameBtns[2].cget("text") == gameBtns[4].cget("text") == gameBtns[6].cget("text") and gameBtns[0].cget("text") != "":
+        print("Diagonal 2 win")
         return True # Diagonal win 2
     return False # No win this round
 
 # Functions must be at the top, otherwise the program gets hissy when trying to reference them
 def preGame():
     gameGrid.pack_forget()
-    startBtn.pack(root)
+    startBtn.pack()
 
 def inGame(player="X"):
     turnIndicator.config(text=f"{player}'s turn...")
@@ -28,13 +32,17 @@ def inGame(player="X"):
 def postGame():
     pass
 
-def btnPress(player):
-    if False: # Check if won
-        pass
-    elif player == "X":
-        return "O"
+def btnPress(b):
+    global currentPlayer
+    if b.cget("text") == "":
+        b.config(text=currentPlayer)
     else:
-        return "X"
+        return
+    if checkWin():
+        print(currentPlayer, "wins!")
+        preGame()
+    else:
+        currentPlayer = "O" if currentPlayer == "X" else "X" # Change player
 
 def startGame():
     startBtn.pack_forget()
@@ -56,7 +64,8 @@ for i in range(3):
 # Loop to create each game btn and store it in an array
 for r in range(3):
     for c in range(3):
-        btn = tk.Button(gameGrid, text="")
+        btn = tk.Button(gameGrid, text="") 
+        btn.config(command=lambda b = btn: btnPress(b))
         btn.grid(row=r, column=c, sticky="news")
         gameBtns.append(btn)
 
