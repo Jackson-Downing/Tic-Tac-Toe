@@ -21,9 +21,18 @@ def checkWin():
         return True # Diagonal win 2
     return False # No win this round
 
+def checkTie():
+    global gameBtns
+    isTie = True
+    for btn in gameBtns:
+        if btn.cget("text") == "":
+            isTie = False
+    return isTie
+
 # Functions must be at the top, otherwise the program gets hissy when trying to reference them
 def preGame():
     gameGrid.pack_forget()
+    turnIndicator.pack_forget()
     startBtn.pack()
 
 def inGame(player="X"):
@@ -40,6 +49,9 @@ def btnPress(b):
         return
     if checkWin():
         print(currentPlayer, "wins!")
+        preGame()
+    elif checkTie():
+        print("Tie!")
         preGame()
     else:
         currentPlayer = "O" if currentPlayer == "X" else "X" # Change player
