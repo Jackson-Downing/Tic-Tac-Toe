@@ -16,7 +16,7 @@ def checkWin():
     if gameBtns[0].cget("text") == gameBtns[4].cget("text") == gameBtns[8].cget("text") and gameBtns[0].cget("text") != "":
         print("Diagonal 1 win")
         return True # Diagonal win 1
-    elif gameBtns[2].cget("text") == gameBtns[4].cget("text") == gameBtns[6].cget("text") and gameBtns[0].cget("text") != "":
+    elif gameBtns[2].cget("text") == gameBtns[4].cget("text") == gameBtns[6].cget("text") and gameBtns[2].cget("text") != "":
         print("Diagonal 2 win")
         return True # Diagonal win 2
     return False # No win this round
@@ -47,6 +47,8 @@ def btnPress(b):
 def startGame():
     startBtn.pack_forget()
     turnIndicator.pack()
+    for btn in gameBtns:
+        btn.config(text="")
     gameGrid.pack(padx=20, pady=20, expand=True, fill="both")
     inGame()
 
