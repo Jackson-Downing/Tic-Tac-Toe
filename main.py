@@ -1,7 +1,12 @@
 import tkinter as tk
 
+# Global variables
 currentPlayer = "X"
 gameBtns = []
+
+root = tk.Tk()
+root.title("Tic Tac Toe - Jackson Downing")
+root.geometry("500x500")
 
 def checkWin():
     global gameBtns
@@ -14,7 +19,7 @@ def checkWin():
     if gameBtns[0].cget("text") == gameBtns[4].cget("text") == gameBtns[8].cget("text") and gameBtns[0].cget("text") != "":
         return True # Diagonal win 1
     elif gameBtns[2].cget("text") == gameBtns[4].cget("text") == gameBtns[6].cget("text") and gameBtns[2].cget("text") != "":
-        return True # Diagonal win 2
+        return True # Diagonal win
     return False # No win this round
 
 def checkTie():
@@ -30,9 +35,12 @@ def preGame():
     textIndicator.pack_forget()
     gameGrid.pack_forget()
     menuBtn.pack_forget()
-    startBtn.pack()
+    startBtn.pack(side="bottom", padx=10, pady=10)
 
 def postGame():
+    global gameBtns
+    for btn in gameBtns:
+        btn.config(state="disabled")
     menuBtn.pack(padx=10, pady=10)
 
 def btnPress(b):
@@ -53,17 +61,14 @@ def btnPress(b):
 
 def startGame():
     global currentPlayer
+    global gameBtns
     currentPlayer = "X"
     startBtn.pack_forget()
     textIndicator.pack(padx=10, pady=10)
     for btn in gameBtns:
-        btn.config(text="")
+        btn.config(text="", state="normal")
     gameGrid.pack(padx=20, pady=10, expand=True, fill="both")
     textIndicator.config(text=f"{currentPlayer}'s turn...")
-
-root = tk.Tk()
-root.title("Tic Tac Toe - Jackson Downing")
-root.geometry("500x500")
 
 # Grid to hold all the game btns, autofitting to the screen with equal size
 gameGrid = tk.Frame(root)
@@ -80,10 +85,8 @@ for r in range(3):
         btn.grid(row=r, column=c, sticky="news")
         gameBtns.append(btn)
 
-startBtn = tk.Button(root, text="Start game", font=("Comic Sans MS", 20), width=20, height=5, command=startGame)
-startBtn.pack(pady=50, padx=50)
-
+startBtn = tk.Button(root, text="Start game", font=("Ariel", 12), width=20, height=1, command=startGame)
 textIndicator = tk.Label(root, font=("Ariel", 12))
-menuBtn = tk.Button(root, text="Menu", height=1, width=20, command=preGame)
-
+menuBtn = tk.Button(root, text="Menu", width=20, height=1, font=("Ariel", 12), command=preGame)
+preGame()
 root.mainloop()
